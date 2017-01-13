@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HIL_BETrackerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="fn_GetCurrNextQtr" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="PrevQtr" Type="varchar" MaxLength="20" />
+                <Property Name="CurrQtr" Type="varchar" MaxLength="20" />
+                <Property Name="NextQtr" Type="varchar" MaxLength="20" />
+                <Property Name="FutQtr" Type="varchar" MaxLength="20" />
+                <Property Name="PrevM1" Type="varchar" MaxLength="50" />
+                <Property Name="PrevM2" Type="varchar" MaxLength="50" />
+                <Property Name="PrevM3" Type="varchar" MaxLength="50" />
+                <Property Name="CurrM1" Type="varchar" MaxLength="50" />
+                <Property Name="CurrM2" Type="varchar" MaxLength="50" />
+                <Property Name="CurrM3" Type="varchar" MaxLength="50" />
+                <Property Name="NxtM1" Type="varchar" MaxLength="50" />
+                <Property Name="NxtM2" Type="varchar" MaxLength="50" />
+                <Property Name="NxtM3" Type="varchar" MaxLength="50" />
+                <Property Name="FutM1" Type="varchar" MaxLength="50" />
+                <Property Name="FutM2" Type="varchar" MaxLength="50" />
+                <Property Name="FutM3" Type="varchar" MaxLength="50" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="sp_GetRevenue_Optimize" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Mail_ID" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_HIL_UpdateRevenue" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="acctName" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="PU" Type="nvarchar" Mode="In" />
+          <Parameter Name="curr_Code" Type="nvarchar" Mode="In" />
+          <Parameter Name="CQM1" Type="float" Mode="In" />
+          <Parameter Name="CQM2" Type="float" Mode="In" />
+          <Parameter Name="CQM3" Type="float" Mode="In" />
+          <Parameter Name="NQM1" Type="float" Mode="In" />
+          <Parameter Name="NQM2" Type="float" Mode="In" />
+          <Parameter Name="NQM3" Type="float" Mode="In" />
+          <Parameter Name="CQ_Remarks" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="NQ_Remarks" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Modified_By" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="actuals_Count" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="HIL_BETrackerModelStoreContainer" />
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HIL_BETrackerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="HIL_BETrackerEntities" annotation:LazyLoadingEnabled="true" >
+          <FunctionImport Name="sp_GetRevenue_Optimize" ReturnType="Collection(HIL_BETrackerModel.sp_GetRevenue_Optimize_Result)">
+          <Parameter Name="Mail_ID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="fn_GetCurrNextQtr" IsComposable="true" ReturnType="Collection(HIL_BETrackerModel.fn_GetCurrNextQtr_Result)" />
+          <FunctionImport Name="sp_HIL_UpdateRevenue">
+            <Parameter Name="acctName" Mode="In" Type="String" />
+            <Parameter Name="PU" Mode="In" Type="String" />
+            <Parameter Name="curr_Code" Mode="In" Type="String" />
+            <Parameter Name="CQM1" Mode="In" Type="Double" />
+            <Parameter Name="CQM2" Mode="In" Type="Double" />
+            <Parameter Name="CQM3" Mode="In" Type="Double" />
+            <Parameter Name="NQM1" Mode="In" Type="Double" />
+            <Parameter Name="NQM2" Mode="In" Type="Double" />
+            <Parameter Name="NQM3" Mode="In" Type="Double" />
+            <Parameter Name="CQ_Remarks" Mode="In" Type="String" />
+            <Parameter Name="NQ_Remarks" Mode="In" Type="String" />
+            <Parameter Name="Modified_By" Mode="In" Type="String" />
+            <Parameter Name="actuals_Count" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_GetRevenue_Optimize_Result">
+          <Property Type="String" Name="MasterCustomerCode" Nullable="false" MaxLength="255" />
+          <Property Type="Int64" Name="RowDup" Nullable="false" />
+          <Property Type="Int64" Name="BVFR" Nullable="false" />
+          <Property Type="String" Name="PU" Nullable="false" MaxLength="255" />
+          <Property Type="Double" Name="PQAM1" Nullable="true" />
+          <Property Type="String" Name="NC" Nullable="true" MaxLength="10" />
+          <Property Type="Double" Name="ER" Nullable="true" />
+          <Property Type="Double" Name="CQM1ActuaLs" Nullable="true" />
+          <Property Type="Double" Name="CQM2ActuaLs" Nullable="true" />
+          <Property Type="Double" Name="CQM3ActuaLs" Nullable="true" />
+          <Property Type="Double" Name="CQM1NATIVE" Nullable="false" />
+          <Property Type="Double" Name="CQM1USD" Nullable="false" />
+          <Property Type="Double" Name="CQM2NATIVE" Nullable="false" />
+          <Property Type="Double" Name="CQM2USD" Nullable="false" />
+          <Property Type="Double" Name="CQM3NATIVE" Nullable="false" />
+          <Property Type="Double" Name="CQM3USD" Nullable="false" />
+          <Property Type="String" Name="CQREMARKS" Nullable="true" MaxLength="255" />
+          <Property Type="Double" Name="CQREVNATIVE" Nullable="false" />
+          <Property Type="Double" Name="CQREVUSD" Nullable="false" />
+          <Property Type="Decimal" Name="CQRTBRNATIVE" Nullable="true" Precision="19" />
+          <Property Type="Double" Name="CQMCOBE" Nullable="true" />
+          <Property Type="Double" Name="CQDHBE" Nullable="true" />
+          <Property Type="Double" Name="NQM1NATIVE" Nullable="false" />
+          <Property Type="Double" Name="NQM1USD" Nullable="false" />
+          <Property Type="Double" Name="NQM2NATIVE" Nullable="false" />
+          <Property Type="Double" Name="NQM2USD" Nullable="false" />
+          <Property Type="Double" Name="NQM3NATIVE" Nullable="false" />
+          <Property Type="Double" Name="NQM3USD" Nullable="false" />
+          <Property Type="String" Name="NQREMARKS" Nullable="true" MaxLength="255" />
+          <Property Type="Double" Name="NQREVNATIVE" Nullable="false" />
+          <Property Type="Double" Name="NQREVUSD" Nullable="false" />
+          <Property Type="Decimal" Name="NQRTBRNATIVE" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="NQRTBRUSD" Nullable="false" Precision="19" />
+          <Property Type="Double" Name="NQMCOBE" Nullable="true" />
+          <Property Type="Double" Name="NQDHBE" Nullable="true" />
+          <Property Type="Double" Name="CQRTBRUSDACTUALS" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="fn_GetCurrNextQtr_Result">
+          <Property Type="String" Name="PrevQtr" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="CurrQtr" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="NextQtr" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="FutQtr" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="PrevM1" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PrevM2" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PrevM3" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CurrM1" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CurrM2" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CurrM3" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NxtM1" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NxtM2" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NxtM3" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FutM1" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FutM2" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FutM3" Nullable="true" MaxLength="50" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HIL_BETrackerModelStoreContainer" CdmEntityContainer="HIL_BETrackerEntities" >
+          <FunctionImportMapping FunctionImportName="sp_GetRevenue_Optimize" FunctionName="HIL_BETrackerModel.Store.sp_GetRevenue_Optimize">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HIL_BETrackerModel.sp_GetRevenue_Optimize_Result">
+                <ScalarProperty Name="MasterCustomerCode" ColumnName="MasterCustomerCode" />
+                <ScalarProperty Name="RowDup" ColumnName="RowDup" />
+                <ScalarProperty Name="BVFR" ColumnName="BVFR" />
+                <ScalarProperty Name="PU" ColumnName="PU" />
+                <ScalarProperty Name="PQAM1" ColumnName="PQAM1" />
+                <ScalarProperty Name="NC" ColumnName="NC" />
+                <ScalarProperty Name="ER" ColumnName="ER" />
+                <ScalarProperty Name="CQM1ActuaLs" ColumnName="CQM1ActuaLs" />
+                <ScalarProperty Name="CQM2ActuaLs" ColumnName="CQM2ActuaLs" />
+                <ScalarProperty Name="CQM3ActuaLs" ColumnName="CQM3ActuaLs" />
+                <ScalarProperty Name="CQM1NATIVE" ColumnName="CQM1NATIVE" />
+                <ScalarProperty Name="CQM1USD" ColumnName="CQM1USD" />
+                <ScalarProperty Name="CQM2NATIVE" ColumnName="CQM2NATIVE" />
+                <ScalarProperty Name="CQM2USD" ColumnName="CQM2USD" />
+                <ScalarProperty Name="CQM3NATIVE" ColumnName="CQM3NATIVE" />
+                <ScalarProperty Name="CQM3USD" ColumnName="CQM3USD" />
+                <ScalarProperty Name="CQREMARKS" ColumnName="CQREMARKS" />
+                <ScalarProperty Name="CQREVNATIVE" ColumnName="CQREVNATIVE" />
+                <ScalarProperty Name="CQREVUSD" ColumnName="CQREVUSD" />
+                <ScalarProperty Name="CQRTBRNATIVE" ColumnName="CQRTBRNATIVE" />
+                <ScalarProperty Name="CQMCOBE" ColumnName="CQMCOBE" />
+                <ScalarProperty Name="CQDHBE" ColumnName="CQDHBE" />
+                <ScalarProperty Name="NQM1NATIVE" ColumnName="NQM1NATIVE" />
+                <ScalarProperty Name="NQM1USD" ColumnName="NQM1USD" />
+                <ScalarProperty Name="NQM2NATIVE" ColumnName="NQM2NATIVE" />
+                <ScalarProperty Name="NQM2USD" ColumnName="NQM2USD" />
+                <ScalarProperty Name="NQM3NATIVE" ColumnName="NQM3NATIVE" />
+                <ScalarProperty Name="NQM3USD" ColumnName="NQM3USD" />
+                <ScalarProperty Name="NQREMARKS" ColumnName="NQREMARKS" />
+                <ScalarProperty Name="NQREVNATIVE" ColumnName="NQREVNATIVE" />
+                <ScalarProperty Name="NQREVUSD" ColumnName="NQREVUSD" />
+                <ScalarProperty Name="NQRTBRNATIVE" ColumnName="NQRTBRNATIVE" />
+                <ScalarProperty Name="NQRTBRUSD" ColumnName="NQRTBRUSD" />
+                <ScalarProperty Name="NQMCOBE" ColumnName="NQMCOBE" />
+                <ScalarProperty Name="NQDHBE" ColumnName="NQDHBE" />
+                <ScalarProperty Name="CQRTBRUSDACTUALS" ColumnName="CQRTBRUSDACTUALS" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="fn_GetCurrNextQtr" FunctionName="HIL_BETrackerModel.Store.fn_GetCurrNextQtr">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HIL_BETrackerModel.fn_GetCurrNextQtr_Result">
+                <ScalarProperty Name="PrevQtr" ColumnName="PrevQtr" />
+                <ScalarProperty Name="CurrQtr" ColumnName="CurrQtr" />
+                <ScalarProperty Name="NextQtr" ColumnName="NextQtr" />
+                <ScalarProperty Name="FutQtr" ColumnName="FutQtr" />
+                <ScalarProperty Name="PrevM1" ColumnName="PrevM1" />
+                <ScalarProperty Name="PrevM2" ColumnName="PrevM2" />
+                <ScalarProperty Name="PrevM3" ColumnName="PrevM3" />
+                <ScalarProperty Name="CurrM1" ColumnName="CurrM1" />
+                <ScalarProperty Name="CurrM2" ColumnName="CurrM2" />
+                <ScalarProperty Name="CurrM3" ColumnName="CurrM3" />
+                <ScalarProperty Name="NxtM1" ColumnName="NxtM1" />
+                <ScalarProperty Name="NxtM2" ColumnName="NxtM2" />
+                <ScalarProperty Name="NxtM3" ColumnName="NxtM3" />
+                <ScalarProperty Name="FutM1" ColumnName="FutM1" />
+                <ScalarProperty Name="FutM2" ColumnName="FutM2" />
+                <ScalarProperty Name="FutM3" ColumnName="FutM3" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_HIL_UpdateRevenue" FunctionName="HIL_BETrackerModel.Store.sp_HIL_UpdateRevenue" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
