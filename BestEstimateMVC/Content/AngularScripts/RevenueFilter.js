@@ -28,10 +28,11 @@
 
         return input;
     }
-}).filter('startFrom', function () {
-    return function (input, start) {
-        if (!input || !input.length) { return; }
-        start = +start; //parse to int
-        return input.slice(start);
-    }
 });
+//    .filter('startFrom', function () {
+//    return function (input, start) {
+//        if (!input || !input.length) { return; }
+//        start = +start; //parse to int
+//        return input.slice(start);
+//    }
+//});

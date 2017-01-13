@@ -2,8 +2,11 @@
    
     GetAllRevDeatils();
     GetQtrDetails();
+    
+    $scope.sortType = 'MasterCustomerCode'; // set the default sort type
+    $scope.sortReverse = false;  // set the default sort order
+    $scope.searchCustCode = '';     // set the default search/filter term
 
-   $scope.test = "this is displayed??"
 
     var listOfChangedRows = [];
   
@@ -56,13 +59,21 @@
             rev.NQREVUSD = rev.NQM1USD + rev.NQM2USD + rev.NQM3USD;
         }
         //debugger;
-        if ($scope.currentPage == "0")
-        {
+
+        var startPos = ($scope.page - 1) * 50;
+        //if ($scope.currentPage == "0")
+        //{
+        //    index = index;
+        //}
+        //else
+        //{
+        //    index = $scope.pageSize * $scope.currentPage + index;
+        //}
+        if ($scope.page == "1") {
             index = index;
         }
-        else
-        {
-            index = $scope.pageSize * $scope.currentPage + index;
+        else {
+            index = startPos + index;
         }
         if(listOfChangedRows.indexOf(index)==-1)
         {
@@ -90,6 +101,12 @@
             alert('Error in updating record');
         });
     }
+    $scope.pageChanged = function () {
+        var startPos = ($scope.page - 1) * 50;
+        //$scope.displayItems = $scope.totalItems.slice(startPos, startPos + 3);
+       // alert(startPos);
+        //console.log($scope.page);
+    };
     function GetAllRevDeatils() {
         var getRevData = RevService.getAllRevDetails();
         getRevData.then(function (rev) {
@@ -100,19 +117,21 @@
             // GetTotals($scope.revdetails);
 
             // Pagination in controller
-            $scope.currentPage = 0;
-            $scope.pageSize = 75;
-            $scope.setCurrentPage = function (currentPage) {
-                $scope.currentPage = currentPage;
-            }
+            $scope.page = 1;
 
-            $scope.getNumberAsArray = function (num) {
-                return new Array(num);
-            };
+            //$scope.currentPage = 0;
+            //$scope.pageSize = 75;
+            //$scope.setCurrentPage = function (currentPage) {
+            //    $scope.currentPage = currentPage;
+            //}
 
-            $scope.numberOfPages = function () {
-                return Math.ceil($scope.revdetails.length / $scope.pageSize);
-            };
+            //$scope.getNumberAsArray = function (num) {
+            //    return new Array(num);
+            //};
+
+            //$scope.numberOfPages = function () {
+            //    return Math.ceil($scope.revdetails.length / $scope.pageSize);
+            //};
 
             //pagination end code
 

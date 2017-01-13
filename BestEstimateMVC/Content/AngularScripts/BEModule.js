@@ -1,4 +1,4 @@
-﻿var app = angular.module("BEApp", []);
+﻿var app = angular.module("BEApp", ["ui.bootstrap"]);
 
 //app.config(['$httpProvider', function ($httpProvider) {
 //    //initialize get if not there
