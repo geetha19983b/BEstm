@@ -9,8 +9,14 @@ html {
     width: 100%;
     height: 100%;
 }*/
-#wrapper {width: 1500px;} 
-#wrapper .container {max-width: 100%; display: block;}
+#wrapper {
+    width: 1500px;
+}
+
+    #wrapper .container {
+        max-width: 100%;
+        display: block;
+    }
 
 body,
 h1,
@@ -24,7 +30,7 @@ h6 {
 }
 
 .topnav {
-    font-size: 14px; 
+    font-size: 14px;
 }
 
 .lead {
@@ -47,11 +53,11 @@ h6 {
     padding-bottom: 20%;
 }
 
-.intro-message > h1 {
-    margin: 0;
-    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
-    font-size: 5em;
-}
+    .intro-message > h1 {
+        margin: 0;
+        text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+        font-size: 5em;
+    }
 
 .intro-divider {
     width: 400px;
@@ -68,9 +74,9 @@ h6 {
         padding-bottom: 15%;
     }
 
-    .intro-message > h1 {
-        font-size: 3em;
-    }
+        .intro-message > h1 {
+            font-size: 3em;
+        }
 
     ul.intro-social-buttons > li {
         display: block;
@@ -78,9 +84,9 @@ h6 {
         padding: 0;
     }
 
-    ul.intro-social-buttons > li:last-child {
-        margin-bottom: 0;
-    }
+        ul.intro-social-buttons > li:last-child {
+            margin-bottom: 0;
+        }
 
     .intro-divider {
         width: 100%;
@@ -122,15 +128,15 @@ h6 {
     background-size: cover;
 }
 
-.banner h2 {
-    margin: 0;
-    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
-    font-size: 3em;
-}
+    .banner h2 {
+        margin: 0;
+        text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+        font-size: 3em;
+    }
 
-.banner ul {
-    margin-bottom: 0;
-}
+    .banner ul {
+        margin-bottom: 0;
+    }
 
 .banner-social-buttons {
     float: right;
@@ -157,9 +163,9 @@ h6 {
         padding: 0;
     }
 
-    ul.banner-social-buttons > li:last-child {
-        margin-bottom: 0;
-    }
+        ul.banner-social-buttons > li:last-child {
+            margin-bottom: 0;
+        }
 }
 
 /*footer {
@@ -174,75 +180,141 @@ p.copyright {
 .navbar-default {
     background-color: #fdbd2c;
     border-color: #fdbd2c;
-    
     /*border-color: #af9518;*/
 }
-.navbar-default .navbar-brand {
-    color: #423737;
-}
-.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
-      color: #333333;
-    background-color: #afb735;
-}
-.navbar-default .navbar-text {
-    color: #423737;
-}
-.navbar-default .navbar-nav > li > a {
-    color: #423737;
-  
-}
 
-.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-    color: #333333;
-  background-color: #afb735;
-}
+    .navbar-default .navbar-brand {
+        color: #423737;
+    }
+
+        .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+            color: #333333;
+            background-color: #afb735;
+        }
+
+    .navbar-default .navbar-text {
+        color: #423737;
+    }
+
+    .navbar-default .navbar-nav > li > a {
+        color: #423737;
+    }
+
+        .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+            color: #333333;
+            background-color: #afb735;
+        }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
+
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    /*overflow-x:hidden;*/
 }
+
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  /*background-color: #f5f5f5;*/
-  /*padding: 50px 0;*/
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    /*background-color: #f5f5f5;*/
+    /*padding: 50px 0;*/
     background-color: #f8f8f8;
 }
 /*-------------------------------------------------- */
 
-.theader{
+.theader {
     background-color: #ffce78;
-   /*background-color:rgb(254, 203, 46);*/
+    /*background-color:rgb(254, 203, 46);*/
 }
+
 .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
     border: 1px solid #eac333;
 }
+
 .table-hover > tbody > tr:hover > td, .table-hover > tbody > tr:hover > th {
-   /*background-color: rgb(121, 136, 55);*/
+    /*background-color: rgb(121, 136, 55);*/
     /*background-color: #afb735;*/
-    background-color:#A2C563;
+    background-color: #A2C563;
 }
+
 .table-bordered {
-    font-family:'Bookman Old Style';
-    
-    font-size:xx-small;
-   
+    font-family: 'Bookman Old Style';
+    font-size: xx-small;
 }
+
 .pagination {
     display: inline;
     padding-left: 0;
     margin: 20px 0;
     border-radius: 10px;
-   
-   
+}
+
+a {
+    color: #0dafa9;
+    text-decoration: none;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    z-index: 2;
+    color: #fff;
+    cursor: default;
+    background-color: #e4a83b;
+    border-color: #e4a83b;
+}
+
+.pagination > li > a:hover, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus {
+    background-color: rgba(254, 232, 164, 0.9);
+}
+
+.input-group-addon {
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1;
+    text-align: center;
+    background-color: #5cb85c;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+}
+
+.fa-search:before {
+    content: "\f002";
+    color: #423737;
+}
+
+#frmgrup {
+    margin-bottom: 15px;
+    margin-left: 15px;
+}
+
+th {
+    text-align: center;
+}
+
+tbody > tr > td.currQtr {
+    background-color: #FBCBB9;
+    background-color: #7E86AB;
+    background-color: #9EA4C0;
+    border-color: #6E77A0;
+}
+
+tbody > tr > td.nxtQtr {
+    background-color: #FFCAA9;
+    border-color: #FFAB75;
+}
+
+
+.floatingHeader {
+  position: fixed;
+  top: 0;
+  visibility: hidden;
 }
 

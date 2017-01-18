@@ -1,0 +1,642 @@
+﻿<div>
+    <div>
+        <div ng-controller="RevCntrl">
+
+            <div>
+                <h4 style="margin-left:15px"> Revenue Details Page</h4>
+               
+                
+                <form>
+                    <div class="form-group" id="frmgrup">
+
+                        <div class="input-group">
+
+                            <div class="input-group-addon"><i class="fa fa-search"></i></div>
+
+                            <input type="text" class="form-control" placeholder="Search on Customer" ng-model="searchCust">
+
+
+                        </div>
+                    </div>
+                </form>
+
+                <div class="col-md-12">
+                    <ul uib-pagination class="pagination-sm pagination" total-items="resultValue.length" ng-model="page"
+                        ng-change="pageChanged()" previous-text="&lsaquo;" next-text="&rsaquo;" items-per-page=50></ul>
+
+                    @*<nav aria-label="Page navigation">
+                        <ul class="pagination pagination-sm pagovr" ng-repeat="i in getNumberAsArray(numberOfPages()) track by $index" ng-click="setCurrentPage($index)">
+
+                            <li><a href="#">{{$index + 1}}</a></li>
+
+
+                        </ul>
+                    </nav>*@
+                    
+
+                    <button ng-click="saveEditedRows()" class="btn btn-sm btn-success">Save</button>
+             
+
+                </div>
+
+            </div>
+
+            <div class="col-md-12 divRevList ng-cloak">
+                
+                <div>
+                @*<div style="overflow:scroll; height:500px;width:auto;">*@
+                    @*<ul class="pagination" ng-repeat="i in getNumberAsArray(numberOfPages()) track by $index" ng-click="setCurrentPage($index)">
+                            <li> {{$index + 1}} </li>
+                        </ul>*@
+                    @*<button ng-repeat="i in getNumberAsArray(numberOfPages()) track by $index" ng-click="setCurrentPage($index)">
+                            {{$index + 1}}
+                        </button>*@
+
+
+
+                    <table class="table table-bordered table-condensed table-hover">
+                        <thead>
+                            <tr class="theader">
+                                <th rowspan="3">
+                                    <a href="#" ng-click="sortType = 'MasterCustomerCode'; sortReverse = !sortReverse">
+                                        MasterCustomerCode
+
+                                        <span ng-show="sortType == 'MasterCustomerCode' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'MasterCustomerCode' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                               
+                                <th rowspan="3">
+                                    <a href="#" ng-click="sortType = 'PU'; sortReverse = !sortReverse">
+                                       PU
+
+                                        <span ng-show="sortType == 'PU' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'PU' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th rowspan="2">{{qtrData.PrevQtr}}</th>
+                                <th rowspan="2" colspan="3">{{qtrData.CurrQtr}}</th>
+                                <th rowspan="3" colspan="1">
+                                    <a href="#" ng-click="sortType = 'NC'; sortReverse = !sortReverse">
+                                        Native <br /> CCY
+
+                                        <span ng-show="sortType == 'NC' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'NC' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                               </th>
+                                @*<th rowspan="3" colspan="1">Native <br /> CCY</th>*@
+                                <th rowspan="3" colspan="1">
+                                    <a href="#" ng-click="sortType = 'ER'; sortReverse = !sortReverse">
+                                        Exchange<br /> Rate
+                                        <span ng-show="sortType == 'ER' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'ER' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                @*<th rowspan="3" colspan="1">Exchange<br /> Rate</th>*@
+                                <th colspan="13" rowspan="1" class="currQtr">{{qtrData.CurrQtr}} (Current Quarter)</th>
+                                <th colspan="13" rowspan="1">{{qtrData.NextQtr}} (Next Quarter)</th>
+                            </tr>
+                            <tr class="theader">
+                                
+                                <th colspan="2"  class="currQtr">{{qtrData.CurrM1}}</th>
+                                <th colspan="2"  class="currQtr">{{qtrData.CurrM2}}</th>
+                                <th colspan="2"  class="currQtr">{{qtrData.CurrM3}}</th>
+                                <th rowspan="2"  class="currQtr">Remarks</th>
+                                <th rowspan="2"  class="currQtr">
+                                    <a href="#" ng-click="sortType = 'CQREVNATIVE'; sortReverse = !sortReverse">
+                                        Revenue BE <br />in N.CCY
+
+                                        <span ng-show="sortType == 'CQREVNATIVE' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'CQREVNATIVE' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                               </th>
+                                <th rowspan="2"  class="currQtr">
+                                    <a href="#" ng-click="sortType = 'CQREVUSD'; sortReverse = !sortReverse">
+                                        Revenue BE <br /> in KUSD
+
+                                        <span ng-show="sortType == 'CQREVUSD' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'CQREVUSD' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                               </th>
+                                <th rowspan="2"  class="currQtr">
+                                    <a href="#" ng-click="sortType = 'CQRTBRNATIVE'; sortReverse = !sortReverse">
+                                        RTBR <br /> in N.CCY
+
+                                        <span ng-show="sortType == 'CQRTBRNATIVE' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'CQRTBRNATIVE' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+
+                                </th>
+                                <th rowspan="2"  class="currQtr">
+                                    <a href="#" ng-click="sortType = 'CQRTBRUSDACTUALS'; sortReverse = !sortReverse">
+                                        RTBR <br /> in KUSD
+
+                                        <span ng-show="sortType == 'CQRTBRUSDACTUALS' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'CQRTBRUSDACTUALS' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                               </th>
+                                <th rowspan="2"  class="currQtr">
+                                    <a href="#" ng-click="sortType = 'CQMCOBE'; sortReverse = !sortReverse">
+                                        MCO BE <br /> in KUSD
+
+                                        <span ng-show="sortType == 'CQMCOBE' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'CQMCOBE' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                               </th>
+                                <th rowspan="2"  class="currQtr">
+                                    <a href="#" ng-click="sortType = 'CQDHBE'; sortReverse = !sortReverse">
+                                        DH BE <br /> in KUSD
+
+                                        <span ng-show="sortType == 'CQDHBE' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'CQDHBE' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                               </th>
+
+                                <th colspan="2">{{qtrData.NxtM1}}</th>
+                                <th colspan="2">{{qtrData.NxtM2}}</th>
+                                <th colspan="2">{{qtrData.NxtM3}}</th>
+                                <th rowspan="2">Remarks</th>
+                                <th rowspan="2" class="nxtQtr">
+                                    <a href="#" ng-click="sortType = 'NQREVNATIVE'; sortReverse = !sortReverse">
+                                        Revenue BE <br />in N.CCY
+
+                                        <span ng-show="sortType == 'NQREVNATIVE' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'NQREVNATIVE' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th rowspan="2" class="nxtQtr">
+                                    <a href="#" ng-click="sortType = 'NQREVUSD'; sortReverse = !sortReverse">
+                                        Revenue BE <br /> in KUSD
+
+                                        <span ng-show="sortType == 'NQREVUSD' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'NQREVUSD' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th rowspan="2" class="nxtQtr">
+                                    <a href="#" ng-click="sortType = 'NQRTBRNATIVE'; sortReverse = !sortReverse">
+                                        RTBR <br /> in N.CCY
+
+                                        <span ng-show="sortType == 'NQRTBRNATIVE' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'NQRTBRNATIVE' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+
+                                </th>
+                                <th rowspan="2" class="nxtQtr">
+                                    <a href="#" ng-click="sortType = 'NQRTBRUSD'; sortReverse = !sortReverse">
+                                        RTBR <br /> in KUSD
+
+                                        <span ng-show="sortType == 'NQRTBRUSD' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'NQRTBRUSD' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th rowspan="2" class="nxtQtr">
+                                    <a href="#" ng-click="sortType = 'NQMCOBE'; sortReverse = !sortReverse">
+                                        MCO BE <br /> in KUSD
+
+                                        <span ng-show="sortType == 'NQMCOBE' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'NQMCOBE' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th rowspan="2" class="nxtQtr">
+                                    <a href="#" ng-click="sortType = 'NQDHBE'; sortReverse = !sortReverse">
+                                        DH BE <br /> in KUSD
+
+                                        <span ng-show="sortType == 'NQDHBE' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'NQDHBE' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                             
+
+                            </tr>
+                            <tr class="theader">
+                                <th>
+                                    <a href="#" ng-click="sortType = 'PQAM1'; sortReverse = !sortReverse">
+                                        Actuals <br />in KUSD
+
+                                        <span ng-show="sortType == 'PQAM1' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'PQAM1' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                @*<td>Actuals <br />in KUSD</td>*@
+                                <th>
+                                    <a href="#" ng-click="sortType = 'CQM1Actuals'; sortReverse = !sortReverse">
+                                       {{qtrData.CurrM1}}
+
+                                        <span ng-show="sortType == 'CQM1Actuals' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'CQM1Actuals' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                               
+                                <th>
+                                    <a href="#" ng-click="sortType = 'CQM2Actuals'; sortReverse = !sortReverse">
+                                        {{qtrData.CurrM2}}
+
+                                        <span ng-show="sortType == 'CQM2Actuals' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'CQM2Actuals' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="#" ng-click="sortType = 'CQM3Actuals'; sortReverse = !sortReverse">
+                                        {{qtrData.CurrM3}}
+
+                                        <span ng-show="sortType == 'CQM3Actuals' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'CQM3Actuals' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th  class="currQtr">
+                                    <a href="#" ng-click="sortType = 'CQM1NATIVE'; sortReverse = !sortReverse">
+                                        BE <br />in N.CCY
+
+                                        <span ng-show="sortType == 'CQM1NATIVE' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'CQM1NATIVE' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th  class="currQtr">
+                                    <a href="#" ng-click="sortType = 'CQM1USD'; sortReverse = !sortReverse">
+                                        BE <br />in KUSD
+
+                                        <span ng-show="sortType == 'CQM1USD' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'CQM1USD' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th  class="currQtr">
+                                    <a href="#" ng-click="sortType = 'CQM2NATIVE'; sortReverse = !sortReverse">
+                                        BE <br />in N.CCY
+
+                                        <span ng-show="sortType == 'CQM2NATIVE' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'CQM2NATIVE' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th  class="currQtr">
+                                    <a href="#" ng-click="sortType = 'CQM2USD'; sortReverse = !sortReverse">
+                                        BE <br />in KUSD
+
+                                        <span ng-show="sortType == 'CQM2USD' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'CQM2USD' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                              </th>
+                                <th  class="currQtr">
+                                    <a href="#" ng-click="sortType = 'CQM3NATIVE'; sortReverse = !sortReverse">
+                                        BE <br /> in N.CCY
+
+                                        <span ng-show="sortType == 'CQM3NATIVE' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'CQM3NATIVE' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th  class="currQtr">
+                                    <a href="#" ng-click="sortType = 'CQM3USD'; sortReverse = !sortReverse">
+                                        BE <br /> in KUSD
+
+                                        <span ng-show="sortType == 'CQM3USD' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'CQM3USD' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                               </th>
+
+                              
+                                <th>
+                                    <a href="#" ng-click="sortType = 'NQM1NATIVE'; sortReverse = !sortReverse">
+                                        BE <br />in N.CCY
+
+                                        <span ng-show="sortType == 'NQM1NATIVE' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'NQM1NATIVE' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="#" ng-click="sortType = 'NQM1USD'; sortReverse = !sortReverse">
+                                        BE <br /> in KUSD
+
+                                        <span ng-show="sortType == 'NQM1USD' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'NQM1USD' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="#" ng-click="sortType = 'NQM2NATIVE'; sortReverse = !sortReverse">
+                                        BE <br />in N.CCY
+
+                                        <span ng-show="sortType == 'NQM2NATIVE' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'NQM2NATIVE' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="#" ng-click="sortType = 'NQM2USD'; sortReverse = !sortReverse">
+                                        BE <br /> in KUSD
+
+                                        <span ng-show="sortType == 'NQM2USD' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'NQM2USD' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="#" ng-click="sortType = 'NQM3NATIVE'; sortReverse = !sortReverse">
+                                        BE <br />in N.CCY
+
+                                        <span ng-show="sortType == 'NQM3NATIVE' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'NQM3NATIVE' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="#" ng-click="sortType = 'NQM3USD'; sortReverse = !sortReverse">
+                                        BE <br /> in KUSD
+
+                                        <span ng-show="sortType == 'NQM3USD' && !sortReverse" class="fa fa-caret-down"></span>
+                                        <span ng-show="sortType == 'NQM3USD' && sortReverse" class="fa fa-caret-up"></span>
+                                    </a>
+                                </th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                           
+                            @*<tr ng-repeat="rev in resultValue=(revdetails) track by $index">*@
+                            @*<tr ng-repeat="rev in revdetails  | limitTo : 10 track by $index">*@
+                            <tr ng-repeat="rev in resultValue=(revdetails | filter:searchCust )| orderBy:sortType:sortReverse
+                                | limitTo:50:50*(page-1) track by $index">
+@*<tr ng-repeat="rev in resultValue=(revdetails | filter:searchCust )| orderBy:sortType:sortReverse | startFrom: currentPage * pageSize  | limitTo:pageSize track by $index">*@
+                                <td>
+                                    {{rev.MasterCustomerCode}}
+                                </td>
+                                <td>
+                                    {{rev.PU}}
+                                </td>
+                                <td>{{rev.PQAM1 | number : 2}}</td>
+                                <td ng-hide="true">{{rev.BVFR}}</td>
+                                <td>{{rev.CQM1Actuals | number : 2 | ifEmpty:0.00}}</td>
+                                <td>{{rev.CQM2Actuals | number : 2 | ifEmpty:0.00}}</td>
+                                <td>{{rev.CQM3Actuals | number : 2 | ifEmpty:0.00}}</td>
+                                <td>{{rev.NC}}</td>
+                                <td>{{rev.ER | number : 2}} </td>
+                               
+                                <td class="currQtr"><input type="text" ng-model="rev.CQM1NATIVE" ng-change="onChange(rev,'CQM1NATIVE', $index)" /></td>
+                                <td class="currQtr">{{rev.CQM1USD | number : 2}}</td>
+                               
+                                <td class="currQtr"><input type="text" ng-model="rev.CQM2NATIVE" ng-change="onChange(rev,'CQM2NATIVE', $index)" /></td>
+                                <td class="currQtr">{{rev.CQM2USD | number : 2}}</td>
+                               
+                                <td class="currQtr"><input type="text" ng-model="rev.CQM3NATIVE" ng-change="onChange(rev,'CQM3NATIVE', $index)" /></td>
+                                <td class="currQtr">{{rev.CQM3USD | number : 2}}</td>
+                               
+                                <td class="currQtr"><textarea type="text" ng-model="rev.CQREMARKS" ng-change="onChange(rev,'CQREMARKS', $index)"></textarea></td>
+                                <td class="currQtr">{{rev.CQREVNATIVE | number : 2}}</td>
+                                <td class="currQtr">{{rev.CQREVUSD | number : 2}}</td>
+                                <td class="currQtr">{{rev.CQRTBRNATIVE | number : 2 | ifEmpty:0.00}}</td>
+                                <td class="currQtr">{{rev.CQRTBRUSDACTUALS | number : 2 | ifEmpty:0.00}}</td>
+                                <td class="currQtr">{{rev.CQMCOBE | ifEmpty:0.00}}</td>
+                                <td class="currQtr">{{rev.CQDHBE | ifEmpty:0.00}}</td>
+                              
+                                <td class="nxtQtr"><input type="text" ng-model="rev.NQM1NATIVE" ng-change="onChange(rev,'NQM1NATIVE', $index)" /></td>
+                                <td class="nxtQtr">{{rev.NQM1USD  | number : 2}}</td>
+                              
+                                <td class="nxtQtr"><input type="text" ng-model="rev.NQM2NATIVE" ng-change="onChange(rev,'NQM2NATIVE', $index)" /></td>
+                                <td class="nxtQtr">{{rev.NQM2USD  | number : 2}}</td>
+                               
+                                <td class="nxtQtr"><input type="text" ng-model="rev.NQM3NATIVE" ng-change="onChange(rev,'NQM3NATIVE', $index)" /></td>
+                                <td class="nxtQtr">{{rev.NQM3USD  | number : 2}}</td>
+                               
+                                <td class="nxtQtr"><textarea type="text" ng-model="rev.NQREMARKS" ng-change="onChange(rev,'NQREMARKS', $index)"></textarea></td>
+                                <td class="nxtQtr">{{rev.NQREVNATIVE  | number : 2}}</td>
+                                <td class="nxtQtr">{{rev.NQREVUSD  | number : 2}}</td>
+                                <td class="nxtQtr">{{rev.NQRTBRNATIVE | number : 2 | ifEmpty:0.00}}</td>
+                                <td class="nxtQtr">{{rev.NQRTBRUSD | number : 2 | ifEmpty:0.00}}</td>
+                                <td class="nxtQtr">{{rev.NQMCOBE | ifEmpty:0.00}}</td>
+                                <td class="nxtQtr">{{rev.NQDHBE | ifEmpty:0.00}}</td>
+
+
+
+                            </tr>
+
+                            <tr class="theader">
+                                <td colspan="2">Total-ADM</td>
+                                <td>{{admtotal.PQAM1_totl | number:2}}</td>
+                                <td>{{admtotal.CQM1Actuals_totl | number:2}}</td>
+                                <td>{{admtotal.CQM2ActuaLs_totl | number:2}}</td>
+                                <td>{{admtotal.CQM3ActuaLs_totl | number:2}}</td>
+                                <td></td>
+                                <td></td>
+                                <td>{{admtotal.CQM1NATIVE_totl | number:2}}</td>
+                                <td>{{admtotal.CQM1USD_totl | number:2}}</td>
+                                <td>{{admtotal.CQM2NATIVE_totl | number:2}}</td>
+                                <td>{{admtotal.CQM2USD_totl | number:2}}</td>
+                                <td>{{admtotal.CQM3NATIVE_totl | number:2}}</td>
+                                <td>{{admtotal.CQM3USD_totl | number:2}}</td>
+                                <td></td>
+                                <td>{{admtotal.CQREVNATIVE_totl | number:2}}</td>
+                                <td>{{admtotal.CQREVUSD_totl | number:2}}</td>
+                                <td>{{admtotal.CQRTBRNATIVE_totl| number:2}}</td>
+                                <td>{{admtotal.CQRTBRUSDACTUALS_totl | number:2}}</td>
+                                <td>{{admtotal.CQMCOBE_totl | number:2}}</td>
+                                <td>{{admtotal.CQDHBE_totl | number:2}}</td>
+                                <td>{{admtotal.NQM1NATIVE_totl | number:2}}</td>
+                                <td>{{admtotal.NQM1USD_totl | number:2}}</td>
+                                <td>{{admtotal.NQM2NATIVE_totl | number:2}}</td>
+                                <td>{{admtotal.NQM2USD_totl | number:2}}</td>
+                                <td>{{admtotal.NQM3NATIVE_totl | number:2}}</td>
+                                <td>{{admtotal.NQM3USD_totl | number:2}}</td>
+                                <td></td>
+                                <td>{{admtotal.NQREVNATIVE_totl | number:2}}</td>
+                                <td>{{admtotal.NQREVUSD_totl | number:2}}</td>
+                                <td>{{admtotal.NQRTBRNATIVE_totl | number:2}}</td>
+                                <td>{{admtotal.NQRTBRUSD_totl | number:2}}</td>
+                                <td>{{admtotal.NQMCOBE_totl | number:2}}</td>
+                                <td>{{admtotal.NQDHBE_totl | number:2}}</td>
+                            </tr>
+                            <tr class="theader">
+                                <td colspan="2">Total-BPO</td>
+                                <td>{{bpototal.PQAM1_totl | number:2}}</td>
+                                <td>{{bpototal.CQM1Actuals_totl | number:2}}</td>
+                                <td>{{bpototal.CQM2ActuaLs_totl | number:2}}</td>
+                                <td>{{bpototal.CQM3ActuaLs_totl | number:2}}</td>
+                                <td></td>
+                                <td></td>
+                                <td>{{bpototal.CQM1NATIVE_totl | number:2}}</td>
+                                <td>{{bpototal.CQM1USD_totl | number:2}}</td>
+                                <td>{{bpototal.CQM2NATIVE_totl | number:2}}</td>
+                                <td>{{bpototal.CQM2USD_totl | number:2}}</td>
+                                <td>{{bpototal.CQM3NATIVE_totl | number:2}}</td>
+                                <td>{{bpototal.CQM3USD_totl | number:2}}</td>
+                                <td></td>
+                                <td>{{bpototal.CQREVNATIVE_totl | number:2}}</td>
+                                <td>{{bpototal.CQREVUSD_totl | number:2}}</td>
+                                <td>{{bpototal.CQRTBRNATIVE_totl| number:2}}</td>
+                                <td>{{bpototal.CQRTBRUSDACTUALS_totl | number:2}}</td>
+                                <td>{{bpototal.CQMCOBE_totl | number:2}}</td>
+                                <td>{{bpototal.CQDHBE_totl | number:2}}</td>
+                                <td>{{bpototal.NQM1NATIVE_totl | number:2}}</td>
+                                <td>{{bpototal.NQM1USD_totl | number:2}}</td>
+                                <td>{{bpototal.NQM2NATIVE_totl | number:2}}</td>
+                                <td>{{bpototal.NQM2USD_totl | number:2}}</td>
+                                <td>{{bpototal.NQM3NATIVE_totl | number:2}}</td>
+                                <td>{{bpototal.NQM3USD_totl | number:2}}</td>
+                                <td></td>
+                                <td>{{bpototal.NQREVNATIVE_totl | number:2}}</td>
+                                <td>{{bpototal.NQREVUSD_totl | number:2}}</td>
+                                <td>{{bpototal.NQRTBRNATIVE_totl | number:2}}</td>
+                                <td>{{bpototal.NQRTBRUSD_totl | number:2}}</td>
+                                <td>{{bpototal.NQMCOBE_totl | number:2}}</td>
+                                <td>{{bpototal.NQDHBE_totl | number:2}}</td>
+                            </tr>
+
+                            <template>
+                                @*<tr class="theader">
+                                        <td colspan="2">Total-ADM</td>
+                                        <td>{{totals.pqm1admsum | number:2}}</td>
+                                        <td>{{totals.cqm1admActuals | number:2}}</td>
+                                        <td>{{totals.cqm2admActuals | number:2}}</td>
+                                        <td>{{totals.cqm3admActuals | number:2}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{totals.cqm1admNative | number:2}}</td>
+                                        <td>{{totals.cqm1admUSD | number:2}}</td>
+                                        <td>{{totals.cqm2admNative | number:2}}</td>
+                                        <td>{{totals.cqm2admUSD | number:2}}</td>
+                                        <td>{{totals.cqm3admNative | number:2}}</td>
+                                        <td>{{totals.cqm3admUSD | number:2}}</td>
+                                        <td></td>
+                                        <td>{{totals.cqrevadmNATIVE | number:2}}</td>
+                                        <td>{{totals.cqadmREVUSD | number:2}}</td>
+                                        <td>{{totals.cqadmRTBRNATIVE| number:2}}</td>
+                                        <td>{{totals.cqadmRTBRUSDACTUALS | number:2}}</td>
+                                        <td>{{totals.cqmadmCOBE | number:2}}</td>
+                                        <td>{{totals.cqadmDHBE | number:2}}</td>
+                                        <td>{{totals.nqm1admNATIVE | number:2}}</td>
+                                        <td>{{totals.nqm1USD | number:2}}</td>
+                                        <td>{{totals.nqm2admNATIVE | number:2}}</td>
+                                        <td>{{totals.nqm2USD | number:2}}</td>
+                                        <td>{{totals.nqm3admNATIVE | number:2}}</td>
+                                        <td>{{totals.nqm3USD | number:2}}</td>
+                                        <td></td>
+                                        <td>{{totals.nqadmREVNATIVE | number:2}}</td>
+                                        <td>{{totals.nqadmREVUSD | number:2}}</td>
+                                        <td>{{totals.nqadmRTBRNATIVE | number:2}}</td>
+                                        <td>{{totals.nqadmRTBRUSD | number:2}}</td>
+                                        <td>{{totals.nqmadmCOBE | number:2}}</td>
+                                        <td>{{totals.nqadmDHBE | number:2}}</td>
+                                    </tr>
+                                    <tr class="theader">
+                                        <td colspan="2">Total-BPO</td>
+                                        <td>{{totals.pqm1bposum | number:2}}</td>
+                                        <td>{{totals.cqm1bpoActuals | number:2}}</td>
+                                        <td>{{totals.cqm2bpoActuals | number:2}}</td>
+                                        <td>{{totals.cqm3bpoActuals | number:2}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{totals.cqm1bpoNative | number:2}}</td>
+                                        <td>{{totals.cqm1bpoUSD | number:2}}</td>
+                                        <td>{{totals.cqm2bpoNative | number:2}}</td>
+                                        <td>{{totals.cqm2bpoUSD | number:2}}</td>
+                                        <td>{{totals.cqm3bpoNative | number:2}}</td>
+                                        <td>{{totals.cqm3bpoUSD | number:2}}</td>
+                                        <td></td>
+                                        <td>{{totals.cqrevbpoNATIVE | number:2}}</td>
+                                        <td>{{totals.cqbpoREVUSD | number:2}}</td>
+                                        <td>{{totals.cqbpoRTBRNATIVE | number:2}}</td>
+                                        <td>{{totals.cqbpoRTBRUSDACTUALS | number:2}}</td>
+                                        <td>{{totals.cqmbpoCOBE | number:2}}</td>
+                                        <td>{{totals.cqbpoDHBE | number:2}}</td>
+                                        <td>{{totals.nqm1bpoNATIVE | number:2}}</td>
+                                        <td>{{totals.nqm1bpoUSD | number:2}}</td>
+                                        <td>{{totals.nqm2bpoNATIVE | number:2}}</td>
+                                        <td>{{totals.nqm2bpoUSD | number:2}}</td>
+                                        <td>{{totals.nqm3bpoNATIVE | number:2}}</td>
+                                        <td>{{totals.nqm3bpoUSD | number:2}}</td>
+                                        <td></td>
+                                        <td>{{totals.nqbpoREVNATIVE | number:2}}</td>
+                                        <td>{{totals.nqbpoREVUSD | number:2}}</td>
+                                        <td>{{totals.nqbpoRTBRNATIVE | number:2}}</td>
+                                        <td>{{totals.nqbpoRTBRUSD | number:2}}</td>
+                                        <td>{{totals.cqmbpoCOBE | number:2}}</td>
+                                        <td>{{totals.cqbpoDHBE | number:2}}</td>
+                                    </tr>*@
+                            </template>
+
+
+                            <template>
+                                @*<tr class="theader">
+                                        <td colspan="2">Total-ADM</td>
+                                        <td>{{resultValue | sumOfValue:'PQAM1':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQM1Actuals':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQM2Actuals':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQM3Actuals':'PU':'ADM' | number:2}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{resultValue | sumOfValue:'CQM1NATIVE':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQM1USD':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQM2NATIVE':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQM2USD':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQM3NATIVE':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQM3USD':'PU':'ADM' | number:2}}</td>
+                                        <td></td>
+                                        <td>{{resultValue | sumOfValue:'CQREVNATIVE':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQREVUSD':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQRTBRNATIVE':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQRTBRUSDACTUALS':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQMCOBE':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQDHBE':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'NQM1NATIVE':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'NQM1USD':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'NQM2NATIVE':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'NQM2USD':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'NQM3NATIVE':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'NQM3USD':'PU':'ADM' | number:2}}</td>
+                                        <td></td>
+                                        <td>{{resultValue | sumOfValue:'NQREVNATIVE':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'NQREVUSD':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'NQRTBRNATIVE':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'NQRTBRUSD':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'NQMCOBE':'PU':'ADM' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'NQDHBE':'PU':'ADM' | number:2}}</td>
+                                    </tr>
+                                    <tr class="theader">
+                                        <td colspan="2">Total-BPO</td>
+                                        <td>{{resultValue | sumOfValue:'PQAM1':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQM1Actuals':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQM2Actuals':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQM3Actuals':'PU':'BPO' | number:2}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{resultValue | sumOfValue:'CQM1NATIVE':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQM1USD':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQM2NATIVE':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQM2USD':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQM3NATIVE':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQM3USD':'PU':'BPO' | number:2}}</td>
+                                        <td></td>
+                                        <td>{{resultValue | sumOfValue:'CQREVNATIVE':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQREVUSD':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQRTBRNATIVE':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQRTBRUSDACTUALS':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQMCOBE':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'CQDHBE':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'NQM1NATIVE':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'NQM1USD':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'NQM2NATIVE':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'NQM2USD':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'NQM3NATIVE':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'NQM3USD':'PU':'BPO' | number:2}}</td>
+                                        <td></td>
+                                        <td>{{resultValue | sumOfValue:'NQREVNATIVE':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'NQREVUSD':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'NQRTBRNATIVE':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'NQRTBRUSD':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'NQMCOBE':'PU':'BPO' | number:2}}</td>
+                                        <td>{{resultValue | sumOfValue:'NQDHBE':'PU':'BPO' | number:2}}</td>
+                                    </tr>*@
+                            </template>
+
+                        </tbody>
+
+
+                    </table>
+                   
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+
+
+}
