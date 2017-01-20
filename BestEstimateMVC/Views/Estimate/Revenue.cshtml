@@ -345,7 +345,7 @@
                                 <tbody>
 
                                     <tr ng-repeat="rev in resultValue=(revdetails | filter:searchCust )| orderBy:sortType:sortReverse
-                                | limitTo:50:50*(page-1) track by $index">
+                                | limitTo:50:50*(page-1) track by $index" ng-class="hghltRows(rev)">
 
                                         <td>
                                             {{rev.MasterCustomerCode}}

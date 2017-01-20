@@ -2,6 +2,7 @@
     $("table").stickyTableHeaders();
 });
 
+
 	
 //function UpdateTableHeaders() {
 //    $(".persist-area").each(function () {

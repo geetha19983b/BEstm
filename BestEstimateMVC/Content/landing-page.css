@@ -318,3 +318,15 @@ tbody > tr > td.nxtQtr {
   visibility: hidden;
 }
 
+.hghlight {
+    background-color:#eb8f8f;
+    border-color:#c17c7c;
+}
+
+.hghlight td{
+    background-color:#eb8f8f !important;
+    border-color:#c17c7c !important;
+}
+.ok {
+
+}

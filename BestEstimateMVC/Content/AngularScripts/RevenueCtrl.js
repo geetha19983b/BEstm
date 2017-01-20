@@ -7,7 +7,15 @@
     $scope.sortReverse = false;  // set the default sort order
     $scope.searchCustCode = '';     // set the default search/filter term
 
-
+    $scope.hghltRows = function(rev)
+    {
+        var actuals = rev.CQM1Actuals + rev.CQM2Actuals + rev.CQM3Actuals;
+       
+        actuals = isNaN(actuals) ? 0 : actuals;
+        //console.log('actuals' + actuals + 'revnative' + rev.CQREVNATIVE);
+        return parseInt(actuals) > parseInt(rev.CQREVNATIVE) ? 'hghlight' : 'ok';
+      
+    }
     var listOfChangedRows = [];
 
     $scope.onChange = function (rev, key, index) {
@@ -111,7 +119,7 @@
         var getRevData = RevService.getAllRevDetails();
         getRevData.then(function (rev) {
             // debugger;
-
+          
             $scope.revdetails = rev.data.revdata;
 
             $scope.admtotal = rev.data.admtotal;
